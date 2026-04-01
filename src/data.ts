@@ -11,6 +11,11 @@ export interface UserPrefs {
   favorites: string;
 }
 
+export interface ShopLinks {
+  krasnoeBeloe?: string;
+  bristol?: string;
+}
+
 export interface Drink {
   id: string;
   name: string;
@@ -26,6 +31,9 @@ export interface Drink {
   grape?: string;
   emoji: string;
   keywords: string[];
+  shopLinks?: ShopLinks;
+  region?: string;
+  foodPairings?: string[];
 }
 
 export interface DrinkMatch {
@@ -56,7 +64,13 @@ export const DRINKS: Drink[] = [
     description: 'Мощное красное с нотами черной смородины и кедра. Идеально балансирует жирность мяса.',
     grape: 'Каберне Совиньон',
     emoji: '🍷',
+    region: 'Франция / Чили',
+    foodPairings: ['Стейк', 'Баранина', 'Выдержанные сыры'],
     keywords: ['стейк', 'говядина', 'мясо', 'рибай', 'ростбиф', 'баранина', 'жаркое', 'шашлык из говядины', 'антрекот', 'карпаччо'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=каберне+совиньон',
+      bristol: 'https://bristol.ru/catalog/?search=каберне+совиньон',
+    },
   },
   {
     id: 'chardonnay',
@@ -72,7 +86,13 @@ export const DRINKS: Drink[] = [
     description: 'Элегантное белое с нотами персика и ванили. Подчеркивает нежность рыбы и сливочные соусы.',
     grape: 'Шардоне',
     emoji: '🥂',
+    region: 'Бургундия / Новый свет',
+    foodPairings: ['Лосось', 'Паста со сливками', 'Курица'],
     keywords: ['лосось', 'семга', 'рыба', 'форель', 'морепродукты', 'крем-суп', 'сливочный', 'паста со сливками', 'судак', 'треска'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=шардоне',
+      bristol: 'https://bristol.ru/catalog/?search=шардоне',
+    },
   },
   {
     id: 'pinot-grigio',
@@ -88,7 +108,13 @@ export const DRINKS: Drink[] = [
     description: 'Свежее и легкое с цитрусовыми нотами. Отлично сочетается с пастой и блюдами с яйцом.',
     grape: 'Пино Гриджио',
     emoji: '🥂',
+    region: 'Северная Италия',
+    foodPairings: ['Паста карбонара', 'Омлет', 'Морепродукты'],
     keywords: ['карбонара', 'паста', 'спагетти', 'яйцо', 'бекон', 'ветчина', 'яичница', 'омлет', 'равиоли', 'паста болоньезе'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=пино+гриджио',
+      bristol: 'https://bristol.ru/catalog/?search=пино+гриджио',
+    },
   },
   {
     id: 'sauv-blanc',
@@ -104,7 +130,13 @@ export const DRINKS: Drink[] = [
     description: 'Травянистое и минеральное с нотами крыжовника. Освежает вкус птицы и салатов.',
     grape: 'Совиньон Блан',
     emoji: '🥂',
+    region: 'Луара / Новая Зеландия',
+    foodPairings: ['Курица гриль', 'Цезарь', 'Козий сыр'],
     keywords: ['курица', 'цыпленок', 'индейка', 'птица', 'гриль', 'салат', 'козий сыр', 'зелень', 'спаржа', 'цезарь'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=совиньон+блан',
+      bristol: 'https://bristol.ru/catalog/?search=совиньон+блан',
+    },
   },
   {
     id: 'pinot-noir',
@@ -120,7 +152,13 @@ export const DRINKS: Drink[] = [
     description: 'Изящное красное с нотами вишни и земли. Идеальный партнер для утки и дичи.',
     grape: 'Пино Нуар',
     emoji: '🍷',
+    region: 'Бургундия / Орегон',
+    foodPairings: ['Утка', 'Лосось', 'Трюфель'],
     keywords: ['утка', 'дичь', 'перепел', 'фазан', 'кролик', 'оленина', 'лосось', 'тунец', 'гриб', 'трюфель'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=пино+нуар',
+      bristol: 'https://bristol.ru/catalog/?search=пино+нуар',
+    },
   },
   {
     id: 'merlot',
@@ -136,7 +174,13 @@ export const DRINKS: Drink[] = [
     description: 'Бархатистое и округлое с нотами сливы и шоколада. Оттеняет вкус сыров и мясных блюд.',
     grape: 'Мерло',
     emoji: '🍷',
+    region: 'Бордо / Тоскана',
+    foodPairings: ['Сырная тарелка', 'Телятина', 'Лазанья'],
     keywords: ['сыр', 'сырная тарелка', 'камамбер', 'бри', 'гауда', 'пармезан', 'мясо', 'телятина', 'лазанья'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=мерло',
+      bristol: 'https://bristol.ru/catalog/?search=мерло',
+    },
   },
   {
     id: 'riesling',
@@ -152,7 +196,13 @@ export const DRINKS: Drink[] = [
     description: 'Ароматное с нотами яблока и петроля. Укрощает остроту азиатских блюд.',
     grape: 'Рислинг',
     emoji: '🥂',
+    region: 'Германия / Эльзас',
+    foodPairings: ['Том ям', 'Карри', 'Суши'],
     keywords: ['том ям', 'тайский суп', 'азиатская', 'острое', 'карри', 'суши', 'роллы', 'китайская', 'вьетнамская', 'пад тай', 'вок'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=рислинг',
+      bristol: 'https://bristol.ru/catalog/?search=рислинг',
+    },
   },
   {
     id: 'muscat',
@@ -168,7 +218,13 @@ export const DRINKS: Drink[] = [
     description: 'Ароматный и медовый. Идеален как аперитив или с легкими десертами.',
     grape: 'Мускат',
     emoji: '🍾',
+    region: 'Эльзас / Крым',
+    foodPairings: ['Десерты', 'Фрукты', 'Пирожные'],
     keywords: ['десерт', 'торт', 'чизкейк', 'пирожное', 'фрукты', 'тирамису', 'мороженое', 'панакота', 'крем-брюле', 'медовик', 'сладкое'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=мускат',
+      bristol: 'https://bristol.ru/catalog/?search=мускат',
+    },
   },
   {
     id: 'chianti',
@@ -181,10 +237,16 @@ export const DRINKS: Drink[] = [
     priceMin: 800,
     priceMax: 2000,
     priceLabel: '800 – 2 000 ₽',
-    description: 'Итальянское классическое с кислинкой вишни. Созано для пиццы и томатных соусов.',
+    description: 'Итальянское классическое с кислинкой вишни. Создано для пиццы и томатных соусов.',
     grape: 'Санджовезе',
     emoji: '🍷',
+    region: 'Тоскана, Италия',
+    foodPairings: ['Пицца', 'Паста болоньезе', 'Капрезе'],
     keywords: ['пицца', 'маргарита', 'томатный соус', 'итальянская', 'брускетта', 'капрезе', 'арабьята', 'нисуаз'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=кьянти',
+      bristol: 'https://bristol.ru/catalog/?search=кьянти',
+    },
   },
   {
     id: 'saperavi',
@@ -200,7 +262,13 @@ export const DRINKS: Drink[] = [
     description: 'Грузинское мощное с нотами ежевики и специй. Создано для шашлыка и грузинской кухни.',
     grape: 'Саперави',
     emoji: '🍷',
+    region: 'Кахетия, Грузия',
+    foodPairings: ['Шашлык', 'Хинкали', 'Харчо'],
     keywords: ['шашлык', 'барбекю', 'гриль', 'люля', 'свинина на мангале', 'хинкали', 'чахохбили', 'сациви', 'грузинская', 'харчо'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=саперави',
+      bristol: 'https://bristol.ru/catalog/?search=саперави',
+    },
   },
   {
     id: 'chablis',
@@ -216,7 +284,13 @@ export const DRINKS: Drink[] = [
     description: 'Минеральное с легкой солоноватостью. Легендарная пара для устриц и моллюсков.',
     grape: 'Шардоне',
     emoji: '🥂',
+    region: 'Бургундия, Франция',
+    foodPairings: ['Устрицы', 'Мидии', 'Сибас'],
     keywords: ['устрицы', 'мидии', 'моллюски', 'гребешки', 'морепродукты', 'севиче', 'тартар из рыбы', 'дорада', 'сибас'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=шабли',
+      bristol: 'https://bristol.ru/catalog/?search=шабли',
+    },
   },
   {
     id: 'verdicchio',
@@ -232,7 +306,13 @@ export const DRINKS: Drink[] = [
     description: 'Свежее итальянское с миндальными нотами. Оттеняет деликатный вкус морепродуктов в пасте.',
     grape: 'Вердиккьо',
     emoji: '🥂',
+    region: 'Марке, Италия',
+    foodPairings: ['Паста с морепродуктами', 'Паэлья', 'Ризотто'],
     keywords: ['паста с морепродуктами', 'лингвини', 'спагетти с креветками', 'морепродукты', 'паэлья', 'ризотто с морепродуктами'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=вердиккьо',
+      bristol: 'https://bristol.ru/catalog/?search=вердиккьо',
+    },
   },
   {
     id: 'barbera',
@@ -248,7 +328,13 @@ export const DRINKS: Drink[] = [
     description: 'Живое с яркой кислотностью и нотами вишни. Подчеркивает глубину грибного ризотто.',
     grape: 'Барбера',
     emoji: '🍷',
+    region: 'Пьемонт, Италия',
+    foodPairings: ['Ризотто с грибами', 'Пицца', 'Паста'],
     keywords: ['ризотто', 'ризотто с грибами', 'грибы', 'белые грибы', 'трюфель', 'лисички', 'опята'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=барбера',
+      bristol: 'https://bristol.ru/catalog/?search=барбера',
+    },
   },
   {
     id: 'prosecco',
@@ -264,7 +350,13 @@ export const DRINKS: Drink[] = [
     description: 'Игривое и фруктовое. Отлично открывает аппетит и сочетается с легкими закусками.',
     grape: 'Глера',
     emoji: '🍾',
+    region: 'Венето, Италия',
+    foodPairings: ['Закуски', 'Карпаччо', 'Суши'],
     keywords: ['закуска', 'брускетта', 'канапе', 'легкая закуска', 'прошутто', 'карпаччо', 'суши', 'аперитив', 'дни рождения'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=просекко',
+      bristol: 'https://bristol.ru/catalog/?search=просекко',
+    },
   },
   {
     id: 'champagne',
@@ -280,7 +372,13 @@ export const DRINKS: Drink[] = [
     description: 'Королева праздничного стола. Универсально подходит к икре, устрицам и рыбным блюдам.',
     grape: 'Шардоне / Пино Нуар',
     emoji: '🍾',
+    region: 'Шампань, Франция',
+    foodPairings: ['Икра', 'Устрицы', 'Лосось'],
     keywords: ['икра', 'лобстер', 'краб', 'морепродукты', 'устрицы', 'праздник', 'лосось', 'дорогой ресторан'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=шампанское',
+      bristol: 'https://bristol.ru/catalog/?search=шампанское',
+    },
   },
   {
     id: 'tempranillo',
@@ -296,7 +394,13 @@ export const DRINKS: Drink[] = [
     description: 'Испанское с нотами кожи и табака. Идеально к иберийской кухне — хамону и тапасам.',
     grape: 'Темпранильо',
     emoji: '🍷',
+    region: 'Риоха, Испания',
+    foodPairings: ['Хамон', 'Паэлья', 'Чоризо'],
     keywords: ['хамон', 'тапас', 'испанская кухня', 'чоризо', 'паэлья', 'тапас', 'мортаделла', 'мясная нарезка'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=темпранильо',
+      bristol: 'https://bristol.ru/catalog/?search=темпранильо',
+    },
   },
   {
     id: 'gewurztraminer',
@@ -309,10 +413,16 @@ export const DRINKS: Drink[] = [
     priceMin: 1000,
     priceMax: 2500,
     priceLabel: '1 000 – 2 500 ₽',
-    description: 'Экзотический аромат личи и роз. Мягкит острые и пряные нотки восточных блюд.',
+    description: 'Экзотический аромат личи и роз. Смягчает острые и пряные нотки восточных блюд.',
     grape: 'Гевюрцтраминер',
     emoji: '🥂',
+    region: 'Эльзас / Германия',
+    foodPairings: ['Карри', 'Тагин', 'Индийская кухня'],
     keywords: ['индийская', 'марокканская', 'тагин', 'карри', 'острое', 'пряное', 'тайская', 'фо бо', 'лапша'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=гевюрцтраминер',
+      bristol: 'https://bristol.ru/catalog/?search=гевюрцтраминер',
+    },
   },
   {
     id: 'rose',
@@ -328,7 +438,13 @@ export const DRINKS: Drink[] = [
     description: 'Изящное розовое с нотами клубники и пиона. Универсальный выбор для летней кухни.',
     grape: 'Гренаш / Сенсо',
     emoji: '🌹',
+    region: 'Прованс, Франция',
+    foodPairings: ['Салаты', 'Овощи гриль', 'Рататуй'],
     keywords: ['греческий салат', 'овощи гриль', 'рататуй', 'нисуаз', 'средиземноморская', 'летний', 'легкий обед', 'овощной'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=розе',
+      bristol: 'https://bristol.ru/catalog/?search=розе',
+    },
   },
   {
     id: 'port',
@@ -343,7 +459,13 @@ export const DRINKS: Drink[] = [
     priceLabel: '1 500 – 4 000 ₽',
     description: 'Португальский десертный шедевр. Великолепен с голубым сыром и шоколадными десертами.',
     emoji: '🍷',
+    region: 'Дору, Португалия',
+    foodPairings: ['Горький шоколад', 'Рокфор', 'Фондан'],
     keywords: ['горький шоколад', 'шоколадный торт', 'голубой сыр', 'рокфор', 'горгонзола', 'десерт', 'шоколадный фондан'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=портвейн',
+      bristol: 'https://bristol.ru/catalog/?search=портвейн',
+    },
   },
   {
     id: 'whisky',
@@ -358,7 +480,13 @@ export const DRINKS: Drink[] = [
     priceLabel: '2 000 – 8 000 ₽',
     description: 'Шотландское с дымными и торфяными нотами. Усиливает богатство красного мяса.',
     emoji: '🥃',
+    region: 'Шотландия',
+    foodPairings: ['Стейк', 'Копчёное мясо', 'Зрелые сыры'],
     keywords: ['стейк', 'говядина', 'мясо', 'ребра', 'бургер', 'барбекю', 'копченое', 'рибай', 'антрекот'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=виски',
+      bristol: 'https://bristol.ru/catalog/?search=виски',
+    },
   },
   {
     id: 'gin',
@@ -373,7 +501,13 @@ export const DRINKS: Drink[] = [
     priceLabel: '1 000 – 3 000 ₽',
     description: 'Освежающий с ботаническими нотами. Контрастирует с морским вкусом рыбы и морепродуктов.',
     emoji: '🍸',
+    region: 'Великобритания',
+    foodPairings: ['Морепродукты', 'Устрицы', 'Севиче'],
     keywords: ['рыба', 'морепродукты', 'цитрус', 'легкая закуска', 'тар тар', 'севиче', 'устрицы', 'мидии'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=джин',
+      bristol: 'https://bristol.ru/catalog/?search=джин',
+    },
   },
   {
     id: 'cognac',
@@ -388,7 +522,13 @@ export const DRINKS: Drink[] = [
     priceLabel: '2 000 – 10 000 ₽',
     description: 'Французский с нотами дуба и ванили. Завершает трапезу или дополняет нежные мясные блюда.',
     emoji: '🥃',
+    region: 'Коньяк, Франция',
+    foodPairings: ['Фуа-гра', 'Паштет', 'Шоколад'],
     keywords: ['мясо', 'говядина', 'десерт', 'шоколад', 'форс мажор', 'жульен', 'паштет', 'фуа-гра'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=коньяк',
+      bristol: 'https://bristol.ru/catalog/?search=коньяк',
+    },
   },
   {
     id: 'sake',
@@ -403,7 +543,13 @@ export const DRINKS: Drink[] = [
     priceLabel: '1 000 – 3 000 ₽',
     description: 'Японское рисовое с тонким умами. Создано для японской кухни — суши, сашими, рамен.',
     emoji: '🍶',
+    region: 'Япония',
+    foodPairings: ['Суши', 'Сашими', 'Темпура'],
     keywords: ['суши', 'сашими', 'роллы', 'японская', 'рамен', 'темпура', 'мисо суп', 'угорь', 'тунец'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=саке',
+      bristol: 'https://bristol.ru/catalog/?search=саке',
+    },
   },
   {
     id: 'albarino',
@@ -419,7 +565,13 @@ export const DRINKS: Drink[] = [
     description: 'Испанское с нотами персика и соли. Идеальная пара для морских блюд Атлантики.',
     grape: 'Альбариньо',
     emoji: '🥂',
+    region: 'Галисия, Испания',
+    foodPairings: ['Осьминог', 'Кальмар', 'Паэлья'],
     keywords: ['осьминог', 'кальмар', 'мидии', 'рыба', 'морепродукты', 'паэлья', 'гаспачо', 'испанская'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=альбариньо',
+      bristol: 'https://bristol.ru/catalog/?search=альбариньо',
+    },
   },
   {
     id: 'malbec',
@@ -435,7 +587,13 @@ export const DRINKS: Drink[] = [
     description: 'Аргентинское с нотами сливы и фиалки. Мощный партнер для жареного мяса.',
     grape: 'Мальбек',
     emoji: '🍷',
+    region: 'Мендоса, Аргентина',
+    foodPairings: ['Асадо', 'Стейк', 'Свинина гриль'],
     keywords: ['асадо', 'чоризо', 'аргентинский стейк', 'говядина', 'свинина', 'мясо на гриле', 'шашлык'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=мальбек',
+      bristol: 'https://bristol.ru/catalog/?search=мальбек',
+    },
   },
   {
     id: 'verdejo',
@@ -451,7 +609,206 @@ export const DRINKS: Drink[] = [
     description: 'Испанское с нежными травяными нотами. Освежает вкус овощных блюд и рыбы.',
     grape: 'Вердехо',
     emoji: '🥂',
+    region: 'Руэда, Испания',
+    foodPairings: ['Рыба', 'Овощи', 'Брускетта'],
     keywords: ['овощи', 'рататуй', 'брускетта', 'паэлья', 'рыба', 'морепродукты', 'вегетарианское'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=вердехо',
+      bristol: 'https://bristol.ru/catalog/?search=вердехо',
+    },
+  },
+  {
+    id: 'grenache',
+    name: 'Гренаш',
+    nameRu: 'Гренаш',
+    type: 'red',
+    category: 'Красное сухое',
+    sweetness: 'dry',
+    body: 'medium',
+    priceMin: 900,
+    priceMax: 2200,
+    priceLabel: '900 – 2 200 ₽',
+    description: 'Южнофранцузское с нотами малины и пряностей. Великолепно с блюдами на гриле и бараниной.',
+    grape: 'Гренаш',
+    emoji: '🍷',
+    region: 'Рона / Испания',
+    foodPairings: ['Баранина', 'Тапас', 'Буйабес'],
+    keywords: ['баранина', 'ягненок', 'тапас', 'буйабес', 'рыбный суп', 'прованская кухня', 'средиземноморская'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=гренаш',
+      bristol: 'https://bristol.ru/catalog/?search=гренаш',
+    },
+  },
+  {
+    id: 'syrah',
+    name: 'Сира / Шираз',
+    nameRu: 'Сира',
+    type: 'red',
+    category: 'Красное сухое',
+    sweetness: 'dry',
+    body: 'full',
+    priceMin: 1200,
+    priceMax: 3000,
+    priceLabel: '1 200 – 3 000 ₽',
+    description: 'Мощное с нотами чёрного перца и фиалки. Создан для копчёных блюд и тёмного мяса.',
+    grape: 'Сира',
+    emoji: '🍷',
+    region: 'Рона / Австралия',
+    foodPairings: ['Копчёная утка', 'Оленина', 'BBQ рёбра'],
+    keywords: ['копченое', 'утка', 'оленина', 'дичь', 'барбекю', 'ребра', 'тёмное мясо', 'гриль мясо'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=шираз',
+      bristol: 'https://bristol.ru/catalog/?search=шираз',
+    },
+  },
+  {
+    id: 'nebbiolo',
+    name: 'Неббиоло / Бароло',
+    nameRu: 'Бароло',
+    type: 'red',
+    category: 'Красное сухое',
+    sweetness: 'dry',
+    body: 'full',
+    priceMin: 2500,
+    priceMax: 7000,
+    priceLabel: '2 500 – 7 000 ₽',
+    description: 'Король итальянских вин. Мощные танины и ноты роз, дёгтя и вишни — для особых случаев.',
+    grape: 'Неббиоло',
+    emoji: '🍷',
+    region: 'Пьемонт, Италия',
+    foodPairings: ['Трюфель', 'Брезаола', 'Зрелый пармезан'],
+    keywords: ['трюфель', 'тартуфо', 'брезаола', 'пармезан', 'особый случай', 'праздник', 'дорогой ужин'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=бароло',
+      bristol: 'https://bristol.ru/catalog/?search=бароло',
+    },
+  },
+  {
+    id: 'viognier',
+    name: 'Вионье',
+    nameRu: 'Вионье',
+    type: 'white',
+    category: 'Белое сухое',
+    sweetness: 'dry',
+    body: 'medium',
+    priceMin: 1000,
+    priceMax: 2500,
+    priceLabel: '1 000 – 2 500 ₽',
+    description: 'Ароматное с нотами персика и жасмина. Экзотический выбор для пряной птицы и морепродуктов.',
+    grape: 'Вионье',
+    emoji: '🥂',
+    region: 'Конд-Роти, Франция',
+    foodPairings: ['Курица с пряностями', 'Лангустин', 'Тайская кухня'],
+    keywords: ['курица с пряностями', 'тайская', 'лангустин', 'креветки', 'пряная птица', 'морепродукты пряные'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=вионье',
+      bristol: 'https://bristol.ru/catalog/?search=вионье',
+    },
+  },
+  {
+    id: 'grappa',
+    name: 'Граппа',
+    nameRu: 'Граппа',
+    type: 'strong',
+    category: 'Крепкий',
+    sweetness: 'dry',
+    body: 'full',
+    priceMin: 1500,
+    priceMax: 5000,
+    priceLabel: '1 500 – 5 000 ₽',
+    description: 'Итальянская виноградная водка. Традиционно завершает трапезу — дижестив после пасты или мяса.',
+    emoji: '🥃',
+    region: 'Италия',
+    foodPairings: ['Тирамису', 'Панна котта', 'Кофе'],
+    keywords: ['тирамису', 'панна котта', 'десерт итальянский', 'кофе', 'дижестив', 'после ужина', 'итальянская кухня'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=граппа',
+      bristol: 'https://bristol.ru/catalog/?search=граппа',
+    },
+  },
+  {
+    id: 'calvados',
+    name: 'Кальвадос',
+    nameRu: 'Кальвадос',
+    type: 'strong',
+    category: 'Крепкий',
+    sweetness: 'semidry',
+    body: 'medium',
+    priceMin: 2000,
+    priceMax: 6000,
+    priceLabel: '2 000 – 6 000 ₽',
+    description: 'Нормандский яблочный бренди. Прекрасен с нормандской кухней — камамбером и свининой.',
+    emoji: '🍎',
+    region: 'Нормандия, Франция',
+    foodPairings: ['Камамбер', 'Свинина', 'Яблочный пирог'],
+    keywords: ['камамбер', 'свинина', 'яблочный пирог', 'нормандская кухня', 'сыр мягкий', 'фрукты'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=кальвадос',
+      bristol: 'https://bristol.ru/catalog/?search=кальвадос',
+    },
+  },
+  {
+    id: 'rum',
+    name: 'Ром',
+    nameRu: 'Ром',
+    type: 'strong',
+    category: 'Крепкий',
+    sweetness: 'semisweet',
+    body: 'medium',
+    priceMin: 1000,
+    priceMax: 4000,
+    priceLabel: '1 000 – 4 000 ₽',
+    description: 'Карибский с нотами тростника и ванили. Неожиданно хорош к острым мясным блюдам и сладким десертам.',
+    emoji: '🏴‍☠️',
+    region: 'Карибы / Куба',
+    foodPairings: ['Карибская кухня', 'Шоколадный торт', 'Острые рёбра'],
+    keywords: ['ром коктейль', 'карибская', 'кубинская', 'острые ребра', 'шоколадный торт', 'пряный', 'тёмный десерт'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=ром',
+      bristol: 'https://bristol.ru/catalog/?search=ром',
+    },
+  },
+  {
+    id: 'beer-craft',
+    name: 'Крафтовый эль',
+    nameRu: 'Крафтовый эль',
+    type: 'strong',
+    category: 'Пиво',
+    sweetness: 'semidry',
+    body: 'medium',
+    priceMin: 300,
+    priceMax: 800,
+    priceLabel: '300 – 800 ₽',
+    description: 'Ароматный эль с фруктовыми и цветочными нотами. Отлично сочетается с бургером, пиццей и острой едой.',
+    emoji: '🍺',
+    region: 'США / Европа',
+    foodPairings: ['Бургер', 'Пицца', 'Крылышки BBQ'],
+    keywords: ['бургер', 'пицца', 'крылышки', 'нагетсы', 'хот-дог', 'острое', 'фастфуд', 'жареное'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=эль',
+      bristol: 'https://bristol.ru/catalog/?search=эль',
+    },
+  },
+  {
+    id: 'mezcal',
+    name: 'Мескаль',
+    nameRu: 'Мескаль',
+    type: 'strong',
+    category: 'Крепкий',
+    sweetness: 'dry',
+    body: 'full',
+    priceMin: 2500,
+    priceMax: 7000,
+    priceLabel: '2 500 – 7 000 ₽',
+    description: 'Мексиканский с дымным характером агавы. Дерзкий выбор к тако и мексиканской кухне.',
+    emoji: '🌵',
+    region: 'Оахака, Мексика',
+    foodPairings: ['Тако', 'Гуакамоле', 'Чили'],
+    keywords: ['тако', 'мексиканская', 'гуакамоле', 'начос', 'чили', 'буррито', 'фахитас', 'острая мексиканская'],
+    shopLinks: {
+      krasnoeBeloe: 'https://www.krasnoeibeloe.ru/search/?query=мескаль',
+      bristol: 'https://bristol.ru/catalog/?search=мескаль',
+    },
   },
 ];
 

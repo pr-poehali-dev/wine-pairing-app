@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import Icon from '@/components/ui/icon';
 import {
-  UserPrefs, DrinkMatch, HistoryItem,
-  matchDrinks, isDishRecognized, AlcoholType, Sweetness, Body, Budget
+  UserPrefs, DrinkMatch, HistoryItem, Drink,
+  matchDrinks, isDishRecognized, AlcoholType, Sweetness, Body, Budget, DRINKS
 } from '@/data';
 
 const LS_PREFS = 'winemate_prefs';
 const LS_HISTORY = 'winemate_history';
 const LS_FAVORITES = 'winemate_favorites';
 
-type Screen = 'onboarding' | 'home' | 'result' | 'favorites' | 'settings';
+type Screen = 'onboarding' | 'home' | 'result' | 'favorites' | 'settings' | 'catalog' | 'tips';
 
 const ONBOARDING_QUESTIONS = [
   {
@@ -110,6 +110,56 @@ function OrnamentDivider() {
   );
 }
 
+function ShopButtons({ drink }: { drink: Drink }) {
+  if (!drink.shopLinks) return null;
+  return (
+    <div className="flex gap-2 mt-3">
+      {drink.shopLinks.krasnoeBeloe && (
+        <a
+          href={drink.shopLinks.krasnoeBeloe}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
+          style={{
+            background: 'rgba(139,33,53,0.15)',
+            border: '1px solid rgba(139,33,53,0.35)',
+            color: '#E87090',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(139,33,53,0.25)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(139,33,53,0.15)';
+          }}
+        >
+          🍷 Красное&Белое
+        </a>
+      )}
+      {drink.shopLinks.bristol && (
+        <a
+          href={drink.shopLinks.bristol}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
+          style={{
+            background: 'rgba(201,168,76,0.1)',
+            border: '1px solid rgba(201,168,76,0.25)',
+            color: 'var(--gold)',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(201,168,76,0.18)';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(201,168,76,0.1)';
+          }}
+        >
+          🥂 Бристоль
+        </a>
+      )}
+    </div>
+  );
+}
+
 function DrinkCard({
   match, onFavorite, onReject, isFavorited, showActions = true
 }: {
@@ -133,24 +183,39 @@ function DrinkCard({
           <div className="flex flex-wrap gap-2">
             <span className="wine-badge">{drink.category}</span>
             <span className="gold-badge">{drink.priceLabel}</span>
+            {drink.region && (
+              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>📍 {drink.region}</span>
+            )}
           </div>
         </div>
       </div>
-      <p className="text-sm mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+      <p className="text-sm mb-3 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
         {drink.description}
       </p>
-      <div
-        className="rounded-lg p-3 mb-4 text-sm italic leading-relaxed"
-        style={{
-          background: 'rgba(201, 168, 76, 0.06)',
-          borderLeft: '2px solid rgba(201, 168, 76, 0.3)',
-          color: 'var(--gold-light)',
-        }}
-      >
-        «{reason}»
-      </div>
+      {drink.foodPairings && drink.foodPairings.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {drink.foodPairings.map(p => (
+            <span key={p} className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              {p}
+            </span>
+          ))}
+        </div>
+      )}
+      {reason && (
+        <div
+          className="rounded-lg p-3 mb-3 text-sm italic leading-relaxed"
+          style={{
+            background: 'rgba(201, 168, 76, 0.06)',
+            borderLeft: '2px solid rgba(201, 168, 76, 0.3)',
+            color: 'var(--gold-light)',
+          }}
+        >
+          «{reason}»
+        </div>
+      )}
+      <ShopButtons drink={drink} />
       {showActions && (
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-3">
           {onFavorite && (
             <button
               className={isFavorited ? 'btn-gold flex-1' : 'btn-ghost flex-1'}
@@ -340,6 +405,14 @@ export default function Index() {
     );
   }
 
+  if (screen === 'catalog') {
+    return <CatalogScreen onBack={() => setScreen('home')} />;
+  }
+
+  if (screen === 'tips') {
+    return <TipsScreen onBack={() => setScreen('home')} />;
+  }
+
   if (screen === 'settings') {
     return (
       <SettingsScreen
@@ -368,6 +441,8 @@ export default function Index() {
       }}
       onFavorites={() => setScreen('favorites')}
       onSettings={() => setScreen('settings')}
+      onCatalog={() => setScreen('catalog')}
+      onTips={() => setScreen('tips')}
       favoritesCount={favorites.length}
     />
   );
@@ -472,7 +547,7 @@ function OnboardingScreen({
 
 function HomeScreen({
   dish, setDish, onMatch, history, loading, notRecognized,
-  onHistoryClick, onFavorites, onSettings, favoritesCount
+  onHistoryClick, onFavorites, onSettings, onCatalog, onTips, favoritesCount
 }: {
   dish: string;
   setDish: (v: string) => void;
@@ -483,6 +558,8 @@ function HomeScreen({
   onHistoryClick: (item: HistoryItem) => void;
   onFavorites: () => void;
   onSettings: () => void;
+  onCatalog: () => void;
+  onTips: () => void;
   favoritesCount: number;
 }) {
   const recent = history.slice(0, 3);
@@ -574,8 +651,27 @@ function HomeScreen({
           </button>
         </div>
 
+        <div className="grid grid-cols-2 gap-3 mb-6 animate-fade-in stagger-2">
+          <button
+            onClick={onCatalog}
+            className="wine-card p-4 text-left group"
+          >
+            <div className="text-2xl mb-2">📚</div>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Каталог</p>
+            <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>35+ напитков</p>
+          </button>
+          <button
+            onClick={onTips}
+            className="wine-card p-4 text-left group"
+          >
+            <div className="text-2xl mb-2">🎓</div>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Советы</p>
+            <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Гид сомелье</p>
+          </button>
+        </div>
+
         {recent.length > 0 && (
-          <div className="animate-fade-in stagger-2">
+          <div className="animate-fade-in stagger-3">
             <OrnamentDivider />
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-display text-lg font-light" style={{ color: 'var(--text-secondary)' }}>
@@ -609,7 +705,7 @@ function HomeScreen({
 
         <div className="mt-auto pt-8 text-center">
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            WineMate • 30+ напитков в базе
+            WineMate • 35+ напитков в базе
           </p>
         </div>
       </div>
@@ -857,6 +953,215 @@ function SettingsBlock({
             {opt.label}
           </button>
         ))}
+      </div>
+    </div>
+  );
+}
+
+const CATALOG_FILTERS = ['Все', 'Красное', 'Белое', 'Игристое', 'Крепкий'] as const;
+type CatalogFilter = typeof CATALOG_FILTERS[number];
+
+function CatalogScreen({ onBack }: { onBack: () => void }) {
+  const [filter, setFilter] = useState<CatalogFilter>('Все');
+  const [search, setSearch] = useState('');
+
+  const filtered = DRINKS.filter(d => {
+    const matchesFilter =
+      filter === 'Все' ||
+      (filter === 'Красное' && d.type === 'red') ||
+      (filter === 'Белое' && d.type === 'white') ||
+      (filter === 'Игристое' && d.type === 'sparkling') ||
+      (filter === 'Крепкий' && d.type === 'strong');
+    const matchesSearch = !search || d.name.toLowerCase().includes(search.toLowerCase()) ||
+      d.category.toLowerCase().includes(search.toLowerCase()) ||
+      (d.region || '').toLowerCase().includes(search.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  return (
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-base)' }}>
+      <div className="max-w-lg mx-auto w-full px-5 py-8">
+        <div className="flex items-center gap-3 mb-6 animate-fade-in">
+          <button className="btn-ghost py-2 px-3" onClick={onBack}>
+            <Icon name="ArrowLeft" size={16} />
+          </button>
+          <h1 className="text-display font-light text-2xl" style={{ color: 'var(--text-primary)' }}>
+            Каталог напитков
+          </h1>
+        </div>
+
+        <input
+          className="input-wine mb-4 animate-fade-in stagger-1"
+          placeholder="Поиск по названию или региону…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-5 animate-fade-in stagger-2">
+          {CATALOG_FILTERS.map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className="whitespace-nowrap px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 flex-shrink-0"
+              style={filter === f ? {
+                background: 'var(--wine)',
+                color: 'var(--text-primary)',
+                border: '1px solid rgba(201,168,76,0.3)',
+              } : {
+                background: 'var(--bg-raised)',
+                color: 'var(--text-muted)',
+                border: '1px solid var(--border-subtle)',
+              }}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+
+        <div className="space-y-3">
+          {filtered.map((drink, i) => (
+            <div
+              key={drink.id}
+              className="wine-card p-4 animate-fade-in"
+              style={{ animationDelay: `${i * 0.04}s` }}
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl flex-shrink-0">{drink.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="text-display font-medium" style={{ color: 'var(--text-primary)', fontSize: '17px' }}>
+                      {drink.name}
+                    </h3>
+                    <span className="gold-badge flex-shrink-0 text-xs">{drink.priceLabel}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    <span className="wine-badge">{drink.category}</span>
+                    {drink.region && (
+                      <span className="text-xs" style={{ color: 'var(--text-muted)' }}>📍 {drink.region}</span>
+                    )}
+                  </div>
+                  <p className="text-xs leading-relaxed mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    {drink.description}
+                  </p>
+                  {drink.foodPairings && (
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {drink.foodPairings.map(p => (
+                        <span key={p} className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(255,255,255,0.04)', color: 'var(--text-muted)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                          {p}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <ShopButtons drink={drink} />
+                </div>
+              </div>
+            </div>
+          ))}
+          {filtered.length === 0 && (
+            <div className="wine-card p-8 text-center">
+              <p className="text-3xl mb-2">🔍</p>
+              <p style={{ color: 'var(--text-muted)' }}>Ничего не найдено</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const TIPS = [
+  {
+    emoji: '🌡️',
+    title: 'Температура подачи',
+    body: 'Красные вина подают при 16–18°C, белые и розовые — при 8–12°C, игристые — при 6–8°C. Слишком тёплое вино теряет свежесть, слишком холодное — аромат.',
+  },
+  {
+    emoji: '🍷',
+    title: 'Правило «белое к рыбе, красное к мясу»',
+    body: 'Это хорошая точка отсчёта, но не догма. Лёгкое Пино Нуар отлично идёт с лососем, а богатое Шардоне — к жирной курице. Ориентируйтесь на вес блюда, а не на его цвет.',
+  },
+  {
+    emoji: '🧀',
+    title: 'Вино и сыр',
+    body: 'Мягкие сыры (бри, камамбер) — к Шардоне или Просекко. Твёрдые (пармезан, чеддер) — к насыщенным красным. Голубые сыры — к сладкому вину или портвейну.',
+  },
+  {
+    emoji: '🌶️',
+    title: 'Острые блюда',
+    body: 'Избегайте сухих красных с высоким содержанием алкоголя — они усиливают остроту. Выбирайте полусладкие белые (Рислинг, Гевюрцтраминер) — сахар смягчает жжение.',
+  },
+  {
+    emoji: '🍫',
+    title: 'Десерты и вино',
+    body: 'Золотое правило: вино должно быть слаще блюда. Иначе оно покажется кислым. К шоколадному торту — Портвейн или Мускат. К фруктам — лёгкое Просекко.',
+  },
+  {
+    emoji: '🫗',
+    title: 'Декантация',
+    body: 'Молодые красные вина с высокими танинами (Каберне, Бароло) раскрываются лучше после 30–60 минут в декантере. Старые вина декантируют осторожно — не больше 20 минут.',
+  },
+  {
+    emoji: '💰',
+    title: 'Соотношение цена / качество',
+    body: 'Лучшие находки часто в диапазоне 800–2000 ₽. Испания, Португалия, Чили и Аргентина дают отличное вино за разумные деньги. Название региона важнее, чем цена.',
+  },
+  {
+    emoji: '🥃',
+    title: 'Крепкий алкоголь к еде',
+    body: 'Виски Single Malt — к красному мясу и копчёностям. Джин — к морепродуктам и рыбе. Коньяк — к паштетам и десертам. Ром — к пряным и карибским блюдам.',
+  },
+  {
+    emoji: '🌍',
+    title: 'Региональный принцип',
+    body: 'Местная кухня и местное вино создавались вместе веками. Итальянская паста + Кьянти, грузинский шашлык + Саперави, испанская паэлья + Темпранильо — это работает всегда.',
+  },
+];
+
+function TipsScreen({ onBack }: { onBack: () => void }) {
+  return (
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-base)' }}>
+      <div className="max-w-lg mx-auto w-full px-5 py-8">
+        <div className="flex items-center gap-3 mb-2 animate-fade-in">
+          <button className="btn-ghost py-2 px-3" onClick={onBack}>
+            <Icon name="ArrowLeft" size={16} />
+          </button>
+          <h1 className="text-display font-light text-2xl" style={{ color: 'var(--text-primary)' }}>
+            Советы сомелье
+          </h1>
+        </div>
+        <p className="text-sm mb-6 ml-1 animate-fade-in stagger-1" style={{ color: 'var(--text-muted)' }}>
+          Коротко и по делу — всё, что нужно знать о сочетаниях
+        </p>
+
+        <OrnamentDivider />
+
+        <div className="space-y-4 mt-4">
+          {TIPS.map((tip, i) => (
+            <div
+              key={tip.title}
+              className="wine-card p-5 animate-fade-in"
+              style={{ animationDelay: `${i * 0.06}s` }}
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl flex-shrink-0">{tip.emoji}</span>
+                <div>
+                  <h3 className="text-display font-medium mb-1.5" style={{ color: 'var(--text-primary)', fontSize: '17px' }}>
+                    {tip.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {tip.body}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 wine-card p-4 text-center">
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            Лучший учитель — собственный опыт 🍷 Экспериментируйте!
+          </p>
+        </div>
       </div>
     </div>
   );
