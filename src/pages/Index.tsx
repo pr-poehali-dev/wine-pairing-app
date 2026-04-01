@@ -289,6 +289,13 @@ export default function Index() {
     setScreen('home');
   };
 
+  const handleRestartOnboarding = () => {
+    setOnboardingStep(0);
+    setOnboardingData({});
+    setAnimKey(k => k + 1);
+    setScreen('onboarding');
+  };
+
   if (screen === 'onboarding') {
     return (
       <OnboardingScreen
@@ -339,6 +346,7 @@ export default function Index() {
         prefs={prefs!}
         onSave={handleSaveSettings}
         onBack={() => setScreen('home')}
+        onRestartOnboarding={handleRestartOnboarding}
       />
     );
   }
@@ -727,11 +735,12 @@ function FavoritesScreen({
 }
 
 function SettingsScreen({
-  prefs, onSave, onBack
+  prefs, onSave, onBack, onRestartOnboarding
 }: {
   prefs: UserPrefs;
   onSave: (p: UserPrefs) => void;
   onBack: () => void;
+  onRestartOnboarding: () => void;
 }) {
   const [local, setLocal] = useState<UserPrefs>({ ...prefs });
 
@@ -797,6 +806,29 @@ function SettingsScreen({
 
           <button className="btn-wine w-full justify-center" onClick={() => onSave(local)}>
             Сохранить
+          </button>
+
+          <div className="gold-divider mt-2" />
+
+          <button
+            className="w-full py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 transition-all duration-200"
+            style={{
+              background: 'transparent',
+              border: '1px dashed rgba(201,168,76,0.2)',
+              color: 'var(--text-muted)',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(201,168,76,0.4)';
+              (e.currentTarget as HTMLButtonElement).style.color = 'var(--gold)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(201,168,76,0.2)';
+              (e.currentTarget as HTMLButtonElement).style.color = 'var(--text-muted)';
+            }}
+            onClick={onRestartOnboarding}
+          >
+            <Icon name="RotateCcw" size={14} />
+            Пройти тест заново
           </button>
         </div>
       </div>
